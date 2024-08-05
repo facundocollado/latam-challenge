@@ -1,0 +1,40 @@
+name: 'Continuous Integration'
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+      - feature/*
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run model tests
+        run: |
+          source venv/bin/activate
+          make model-test
+
+      - name: Run API tests
+        run: |
+          source venv/bin/activate
+          make api-test
