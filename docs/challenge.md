@@ -21,21 +21,3 @@ Logistic Regression allows for hypothesis testing to determine the statistical s
     accuracy                           0.55     22508
    macro avg       0.56      0.60      0.51     22508
 weighted avg       0.76      0.55      0.60     22508
-
-
-
-
-python -m venv myenv  
-Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
-.\myenv\Scripts\Activate
-Deactivate
-make model-test
-make api-test
-
-uvicorn challenge.api:app --reload
-uvicorn challenge.api:app --host 0.0.0.0 --port 8000 --reload
-
-
-docker build -t latamchallengefjc:tag .
-docker run -it latamchallengefjc:tag
-docker run -it latamchallengefjc:tag /bin/bash
