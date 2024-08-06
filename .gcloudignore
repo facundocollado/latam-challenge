@@ -24,6 +24,7 @@ __pycache__/
 
 # Ignore virtual environment directory
 myenv/
+venv/
 
 # Ignore reports directory
 reports/
