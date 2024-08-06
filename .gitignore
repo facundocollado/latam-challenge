@@ -6,3 +6,6 @@ myenv/
 
 # Ignore Git directory
 .git/
+
+# Ignore reports directory
+reports/
