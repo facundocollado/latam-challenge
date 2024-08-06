@@ -24,7 +24,10 @@ install:		## Install dependencies
 	pip install -r requirements.txt
 
 # Use http://127.0.0.1:8000 as the default value if STRESS_URL is not set
-STRESS_URL ?= http://127.0.0.1:8000
+# for environment variable use
+#STRESS_URL ?= http://127.0.0.1:8000
+#default stress url
+STRESS_URL = https://latam-challenge-docker-smwlorneta-uc.a.run.app
 
 .PHONY: stress-test
 stress-test:
