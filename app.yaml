@@ -11,9 +11,13 @@ handlers:
   - url: /static
     static_dir: static
 
-# Optional: Error handlers
+# Error handlers for predefined errors
 error_handlers:
-  - file: errors/404.html
-    error_code: 404
-  - file: errors/500.html
-    error_code: 500
+  - file: errors/default.html
+    error_code: default
+  - file: errors/over_quota.html
+    error_code: over_quota
+  - file: errors/dos_api_denial.html
+    error_code: dos_api_denial
+  - file: errors/timeout.html
+    error_code: timeout
