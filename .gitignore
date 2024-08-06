@@ -1,0 +1,11 @@
+# Ignore pytest cache
+.pytest_cache/
+
+# Ignore virtual environment directory
+myenv/
+
+# Ignore Git directory
+.git/
+
+# Ignore reports directory
+reports/

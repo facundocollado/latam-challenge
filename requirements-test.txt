@@ -1,0 +1,5 @@
+locust
+coverage
+pytest
+pytest-cov
+mockito

@@ -1,0 +1,41 @@
+name: 'Continuous Delivery'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements-dev.txt
+          pip install -r requirements-test.txt
+          pip install -r requirements.txt
+
+      - name: Deploy to GCP
+        env:
+          GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+          GCP_SERVICE_ACCOUNT_KEY: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+        run: |
+          echo $GCP_SERVICE_ACCOUNT_KEY | gcloud auth activate-service-account --key-file=-
+          gcloud config set project $GCP_PROJECT
+          gcloud app deploy app.yaml --quiet
+
+      - name: Run stress tests
+        run: |
+          source venv/bin/activate
+          make stress-test
