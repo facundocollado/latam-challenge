@@ -33,9 +33,22 @@ class Flight(BaseModel):
 class PredictionRequest(BaseModel):
     flights: List[Flight]
 
+model = None
+
+def load_model():
+    global model
+    if model is None:
+        model_path = os.path.abspath("data/delay_model.pkl")
+        model = DelayModel()
+        with open(model_path, 'rb') as file:
+            model._model = pickle.load(file)
+
+
 @app.post("/predict", status_code=200)
 async def post_predict(request: PredictionRequest) -> Dict[str, Any]:
     
+    load_model()  # Ensure model is loaded
+
     FEATURES_COLS = [
         "OPERA_Latin American Wings", 
         "MES_7",
@@ -49,7 +62,7 @@ async def post_predict(request: PredictionRequest) -> Dict[str, Any]:
         "OPERA_Copa Air"
     ]
 
-     # Convert flights to DataFrame directly
+    # Convert flights to DataFrame directly
     df = pd.DataFrame([flight.model_dump() for flight in request.flights])
     
     # Ensure MES is valid
@@ -61,12 +74,6 @@ async def post_predict(request: PredictionRequest) -> Dict[str, Any]:
     
     # Initialize DataFrame with the necessary columns
     df = df.reindex(columns=FEATURES_COLS, fill_value=0)
-    
-    # Load model and predict
-    model_path = os.path.abspath("data/delay_model.pkl")
-    model = DelayModel()
-    with open(model_path, 'rb') as file:
-        model._model = pickle.load(file)
     
     predictions = model.predict(features=df)
     return {"predict": predictions}
