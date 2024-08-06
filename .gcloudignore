@@ -22,6 +22,9 @@ __pycache__/
 # Ignore pytest cache
 .pytest_cache/
 
+# Ignore test coverage
+.coverage*
+
 # Ignore virtual environment directory
 myenv/
 venv/
